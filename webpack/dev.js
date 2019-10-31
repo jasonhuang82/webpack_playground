@@ -16,6 +16,7 @@ const devConfig = merge(commonConfig, {
         watchContentBase: true,
         host: ip.address(),
         useLocalIp: true,
+        clientLogLevel: 'error',
         overlay: {
             warnings: true,
             errors: true
