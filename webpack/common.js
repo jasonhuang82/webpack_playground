@@ -1,13 +1,25 @@
-const webpack = require('webpack');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const cssConfig = require('./config/cssConfig');
 const getCurrentPath = (_path = '') => path.resolve(__dirname, _path);
+
 module.exports = {
     // context: getCurrentPath('../src'),
-    entry: getCurrentPath('../src/index.js'),
+    entry: [
+        '@babel/polyfill',
+        getCurrentPath('../src/index.js'),
+    ],
+    stats: {
+        colors: true,
+        env: true,
+    },
+    // https://webpack.js.org/configuration/performance/#performancemaxassetsize
+    performance: {
+        maxEntrypointSize: 400000, // max size 400kb
+        maxAssetSize: 100000, // max size 100kb
+    },
     resolve: {
         alias: {
             components: getCurrentPath('../src/components'),
@@ -33,20 +45,22 @@ module.exports = {
             cacheGroups: {
                 reactVendor: {
                     test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                    name: "reactvendor"
+                    name: "reactvendor",
+                    chunks: 'initial',
+                    enforce: true,
                 },
                 utilityVendor: {
                     test: /[\\/]node_modules[\\/](lodash|moment|moment-timezone)[\\/]/,
-                    name: "utilityVendor"
-                },
-                bootstrapVendor: {
-                    test: /[\\/]node_modules[\\/](react-bootstrap)[\\/]/,
-                    name: "bootstrapVendor"
+                    name: "utilityVendor",
+                    chunks: 'initial',
+                    enforce: true,
                 },
                  // 把所有 node_modules 內的程式碼打包成一支 vendors.bundle.js
                 vendor: {
-                    test: /[\\/]node_modules[\\/](!react-bootstrap)(!lodash)(!moment)(!moment-timezone)[\\/]/,
-                    name: "vendor"
+                    test: /[\\/]node_modules[\\/](!react)(!react-dom)(!lodash)(!moment)(!moment-timezone)[\\/]/,
+                    name: "vendor",
+                    chunks: 'initial',
+                    enforce: true,
                 },
                 // 將 app 出現 1 次以上的 code split 出來
                 common: {
@@ -129,7 +143,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.(png|jpe?g|gif|svg)$/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -138,16 +152,39 @@ module.exports = {
                             publicPath: './images',
                             outputPath: 'images/'
                         }
-                    }
+                    },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 65
+                            },
+                          // optipng.enabled: false will disable optipng
+                            optipng: {
+                                enabled: false,
+                            },
+                            pngquant: {
+                                quality: [0.65, 0.90],
+                                speed: 4
+                            },
+                            gifsicle: {
+                                interlaced: false,
+                            },
+                            // the webp option will enable WEBP
+                            webp: {
+                                quality: 75
+                            }
+                        }
+                    },
                 ]
             }
         ],
     },
     plugins: [
-        new webpack.ProgressPlugin(),
         new HtmlWebpackPlugin({
             title: 'Test',
-            template: getCurrentPath('../public/index.html'),
+            template: getCurrentPath('../src/assets/template/index.html'),
             filename: 'index.html',
         }),
         new CleanWebpackPlugin(),
