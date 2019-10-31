@@ -4,12 +4,45 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=development webpack --mode development --config ./webpack/dev.js",
+    "watch": "cross-env NODE_ENV=development webpack --mode development --watch --config ./webpack/dev.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --open --hot --inline --color --port 3000 --config ./webpack/dev.js",
+    "deploy": "cross-env NODE_ENV=production webpack --mode production --config ./webpack/prod.js",
+    "analyzer": "cross-env NODE_ENV=production webpack --mode production --config ./webpack/analyzer.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "autoprefixer": "^9.7.0",
+    "cross-env": "^6.0.3",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "ip": "^1.1.5",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.13.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-loader": "^3.0.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "terser-webpack-plugin": "^2.2.1",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "install": "^0.13.0",
+    "npm": "^6.12.0",
+    "webpack-bundle-analyzer": "^3.6.0"
   }
 }
