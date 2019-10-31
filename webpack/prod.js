@@ -12,7 +12,18 @@ const prodConfig = merge(commonConfig, {
     },
     devtool: 'source-map',
     optimization: {
-        minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+        minimize: true,
+        minimizer: [
+            // https://github.com/webpack-contrib/terser-webpack-plugin
+            new TerserJSPlugin({
+                test: /\.js(\?.*)?$/i,
+                exclude: /\\node_modules/,
+                parallel: true,
+                sourceMap: true,
+                extractComments: true,
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ],
     },
     plugins: [
         new MiniCssExtractPlugin({
