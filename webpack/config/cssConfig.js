@@ -12,11 +12,7 @@ const config = {
     postCss: {
         loader: 'postcss-loader',
         options: {
-            ident: 'postcss',
             sourceMap: true,
-            plugins: [
-                require('autoprefixer'),
-            ],
         }
     },
     sass: {
