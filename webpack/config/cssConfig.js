@@ -3,7 +3,7 @@ const config = {
         loader: 'css-loader',
         options: {
             modules: {
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                localIdentName: '[path]_[name]__[local]--[hash:base64:5]',
             },
             sourceMap: true,
             localsConvention: 'camelCase',
