@@ -11,6 +11,10 @@ module.exports = {
         '@babel/polyfill',
         getCurrentPath('../src/index.js'),
     ],
+    output: {
+        path: getCurrentPath('../build'),
+        filename: '[name].bundle.[hash:8].js',
+    },
     stats: {
         colors: true,
         env: true,
@@ -46,36 +50,39 @@ module.exports = {
                 reactVendor: {
                     test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
                     name: "reactvendor",
-                    chunks: 'initial',
+                    chunks: 'all',
                     enforce: true,
+                    reuseExistingChunk: true,
                 },
                 utilityVendor: {
                     test: /[\\/]node_modules[\\/](lodash|moment|moment-timezone)[\\/]/,
                     name: "utilityVendor",
-                    chunks: 'initial',
+                    chunks: 'all',
                     enforce: true,
+                    reuseExistingChunk: true,
                 },
                  // 把所有 node_modules 內的程式碼打包成一支 vendors.bundle.js
                 vendor: {
                     test: /[\\/]node_modules[\\/](!react)(!react-dom)(!lodash)(!moment)(!moment-timezone)[\\/]/,
                     name: "vendor",
-                    chunks: 'initial',
+                    chunks: 'all',
                     enforce: true,
+                    reuseExistingChunk: true,
                 },
                 // 將 app 出現 1 次以上的 code split 出來
                 common: {
                     name: 'common',
                     chunks: 'initial',
-                    priority: 2,
                     minChunks: 2,
-                    reuseExistingChunk: true,
                 },
-                styles: {
-                    name: 'styles',
-                    test: /\.css$/,
-                    chunks: 'all',
-                    enforce: true,
-                },
+                // styles: {
+                //     test: /\.css$/,
+                //     name: 'styles',
+                //     // chunks: 'all',
+                //     chunks: 'initial',
+                //     priority: 2,
+                //     minChunks: 2,
+                // },
             }
         },
         // 把 webpack runtime 也打包成一支 runtime.bundle.js
@@ -88,9 +95,8 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                }
+                use: ["babel-loader", "eslint-loader"],
+
             },
             // pure css (without CSS modules)
             {
@@ -182,6 +188,10 @@ module.exports = {
         ],
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].bundle.[hash:8].css',
+            chunkFilename: '[id].bundle.[hash:8].css',
+        }),
         new HtmlWebpackPlugin({
             title: 'Test',
             template: getCurrentPath('../src/assets/template/index.html'),
