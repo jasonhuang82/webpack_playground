@@ -1,13 +1,20 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import Form from 'components/Form';
 import LogoImg from 'images/CATCHPLAY_40p.png';
-export default class App extends Component {
+import sum from '../../utils/sum';
+
+class App extends Component {
+    renderForm = () => <Form />
+
     render() {
+        console.log(sum(1, 2));
         return (
-        <div>
-            <img src={LogoImg} alt=""/>
-            <Form/>
-        </div>
-        )
+            <div>
+                <img src={LogoImg} alt="" />
+                { this.renderForm() }
+            </div>
+        );
     }
 }
+
+export default App;
