@@ -1,0 +1,55 @@
+// https://www.robinwieruch.de/webpack-eslint
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb"],
+  "rules": {
+    "indent": "off",
+    // https://github.com/yannickcr/eslint-plugin-react/issues/1679
+    // https://stackoverflow.com/questions/49533844/configuration-for-rule-react-jsx-indent-is-invalid-value-4-object-object
+    // 將編排 取消設定
+    "react/jsx-indent": "off",
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md
+    // props 縮排
+    "react/jsx-indent-props": "off",
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
+    // react comp 副檔名可接受 jsx or js 預設只接受 jsx
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    // https://github.com/evcohen/eslint-plugin-jsx-a11y/issues/302
+    // label 必須加上 for 屬性變成可控元素
+    "jsx-a11y/label-has-associated-control": [ "error", {
+      "required": {
+        "some": [ "nesting", "id"  ]
+      }
+    }],
+    "jsx-a11y/label-has-for": [ "error", {
+      "required": {
+        "some": [ "nesting", "id"  ]
+      }
+    }],
+    // http://eslint.cn/docs/rules/no-console
+    // 讓編譯時，不會因為有用  console 而 fail，但會在 zsh warn
+    "no-console": "off",
+    "no-restricted-syntax": [
+        "error",
+        {
+            "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+            "message": "Unexpected property on console object was called"
+        }
+    ],
+  },
+  "settings": {
+    // https://segmentfault.com/q/1010000016679036
+    // 原因是 eslint 沒有吃到 webpack resolve 的路徑所以要額外設給他
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack/common.js"
+      }
+    }
+  },
+  // https://stackoverflow.com/questions/41858052/solving-linter-error-no-undef-for-document
+  // eslint parse 並沒有 browser 的環境所以 document 理所當然找不到
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
