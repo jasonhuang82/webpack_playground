@@ -35,7 +35,7 @@
             "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
             "message": "Unexpected property on console object was called"
         }
-    ],
+    ]
   },
   "settings": {
     // https://segmentfault.com/q/1010000016679036
@@ -43,6 +43,9 @@
     "import/resolver": {
       "webpack": {
         "config": "./webpack/common.js"
+      },
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
   },
