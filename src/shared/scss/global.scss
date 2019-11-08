@@ -1,0 +1,12 @@
+@import "~normalize.css";
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700");
+@import "~shared/scss/utils/index.scss";
+@import "~shared/scss/utils/common.scss";
+* {
+    box-sizing: border-box;
+}
+body{
+    background-color: $bg_primary;
+    font-family: Roboto,PingFangTC,Microsoft JhengHei,Helvetica,sans-serif;
+}

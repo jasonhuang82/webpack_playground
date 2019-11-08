@@ -1,0 +1,19 @@
+
+@import "./variable.scss";
+@mixin media_size_tablet () {
+    @media (min-width: $break_point_tablet) {
+        @content;
+    }
+}
+
+@mixin media_size_laptop () {
+    @media (min-width: $break_point_laptop) {
+        @content;
+    }
+}
+
+@mixin media_size_desktop () {
+    @media (min-width: $break_point_desktop) {
+        @content;
+    }
+}
