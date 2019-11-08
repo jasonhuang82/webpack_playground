@@ -28,11 +28,14 @@ module.exports = {
         alias: {
             components: getCurrentPath('../src/components'),
             images: getCurrentPath('../src/assets/images'),
-            '@': getCurrentPath('../src')
+            '@': getCurrentPath('../src'),
+            shared: getCurrentPath('../src/shared'),
+            utils: getCurrentPath('../src/utils'),
         },
         extensions: [".js", ".json", ".jsx", ".css"],
         modules: [
             path.resolve(__dirname, '../node_modules/'),
+            path.resolve(__dirname, '../src/utils'),
         ],
     },
     // Ref
@@ -112,9 +115,7 @@ module.exports = {
                             reloadAll: true,
                         },
                     },
-                    cssConfig.css,
-                    cssConfig.postCss,
-                    cssConfig.sass,
+                    ...cssConfig.no_css_module,
                 ],
             },
             // css module
@@ -130,9 +131,7 @@ module.exports = {
                             reloadAll: true,
                         },
                     },
-                    cssConfig.css,
-                    cssConfig.postCss,
-                    cssConfig.sass,
+                    ...cssConfig.css_module,
                 ],
             },
             {
@@ -193,7 +192,7 @@ module.exports = {
             chunkFilename: '[id].bundle.[hash:8].css',
         }),
         new HtmlWebpackPlugin({
-            title: 'Test',
+            title: 'Webpack_playground',
             template: getCurrentPath('../src/assets/template/index.html'),
             filename: 'index.html',
         }),
